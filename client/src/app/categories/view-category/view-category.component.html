@@ -1,0 +1,18 @@
+<app-custom-loader *ngIf="isLoading"></app-custom-loader>
+<div class="row showproductimage" *ngIf="category">
+    <div class="col-md-5">
+        <img
+                [src]="category.imageUrl"
+                class="doctors-img img-fluid"
+                alt="example placeholder avatar"
+        />
+    </div>
+    <div class="col-md-5 title">
+        <h5>{{"TITLE" | translate}} : {{ category.title }}</h5>
+        <h5>{{"DESCRIPTION" | translate}} : {{ category.description }}</h5>
+        <h5>
+            {{"DEAL_OFFER" | translate}}
+            : {{ category.isDealAvailable ? (category.dealPercent + '%') : ("NO_DEAL-LINKED" | translate)}}
+        </h5>
+    </div>
+</div>

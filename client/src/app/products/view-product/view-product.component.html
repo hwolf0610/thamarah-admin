@@ -1,0 +1,34 @@
+<app-custom-loader *ngIf="isLoading"></app-custom-loader>
+<div class="row showproductimage" *ngIf="product">
+    <div class="col-md-5">
+        <img [src]="product.imageUrl" class="doctors-img img-fluid" alt="example placeholder avatar">
+    </div>
+    <div class="col-md-7 title ">
+        <h5>{{product.title}}</h5>
+        <h5>{{product.description}}</h5>
+        <h5><strong>{{"CATEGORY" | translate}}</strong>:&nbsp;{{product.categoryName}}</h5>
+        <h5 *ngIf="product.subcategory">
+            <strong>{{"SUB_CATEGORY" | translate}}</strong>:&nbsp;{{product.subCategoryName}}</h5>
+        <h5><strong>{{"DEAL_OFFER" | translate}}</strong>
+            :&nbsp;{{product.isDealAvailable ? product.dealPercent : ('NO_DEAL-LINKED' | translate)}}</h5>
+        <h5><strong>{{"TOTAL_RATING" | translate}}</strong>:&nbsp;{{product.totalRating || 0}}</h5>
+        <h5><strong>{{"AVERAGE_RATING" | translate}}</strong>:&nbsp;{{product.averageRating || 0}}</h5>
+        <h5><strong>{{"NO_USERS_RATED" | translate}}</strong>:&nbsp;{{product.noOfUsersRated || 0}}</h5>
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="text-center">{{'CAPACITY' | translate}}</th>
+                <th class="text-center">{{'PRICE' | translate}}</th>
+                <th class="text-center">{{'STOCK' | translate}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center" *ngFor="let variant of product.variant">
+                <td>{{variant.unit}}</td>
+                <td>{{variant.price}}</td>
+                <td>{{variant.productStock}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

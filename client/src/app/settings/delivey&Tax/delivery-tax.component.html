@@ -1,0 +1,134 @@
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="content-header text-center text-primary">{{'DELIVERY_AND_TAX_INFORMATION' | translate}}</div>
+    </div>
+</div>
+<app-custom-loader *ngIf="isLoading"></app-custom-loader>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card ">
+            <div class="card-header pb-2">
+            </div>
+            <div class="card-content">
+                <div class="px-3">
+                    <div class="form">
+                        <form (ngSubmit)="updateDeliveryAndTaxInfo()" #f="ngForm">
+                            <div class="form-body">
+                                <h4 class="text-center"><strong>{{"DELIVERY_INFO" | translate}}</strong></h4>
+                                <div class="form-group">
+                                    <label>{{'DELIVERY_TYPE' | translate}}</label>
+                                    <select class="form-control" name="deliveryType"
+                                            [(ngModel)]="deliveryTaxData.deliveryType" required>
+                                        <option disabled>{{'DELIVERY_TYPE' | translate}}</option>
+                                        <option value="FIXED">{{'FIXED' | translate}}</option>
+                                        <option value="FLEXIBLE"> {{'FLEXIBLE' | translate}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{'MINIMUM_AMOUNT_TO_PLACE_ORDER' | translate}}</label>
+                                    <input class="form-control" type="number" name="minimumOrderAmountToPlaceOrder"
+                                           [min]="0"
+                                           [(ngModel)]="deliveryTaxData.minimumOrderAmountToPlaceOrder" required>
+                                    <span class="help-block" *ngIf="deliveryTaxData.minimumOrderAmountToPlaceOrder < 0">
+                                        <small class="text-danger" translate>INV_MIN</small>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{'MIN_ORDER' | translate}}</label>
+                                    <input class="form-control" type="number" name="minimumOrderAmount" [min]="0"
+                                           [(ngModel)]="deliveryTaxData.minOrderAmountForFree">
+                                    <span class="help-block" *ngIf="deliveryTaxData.minOrderAmountForFree < 0">
+                                        <small class="text-danger" translate>INV_MIN</small>
+                                    </span>
+                                    <span class="help-block"
+                                          *ngIf="deliveryTaxData.minOrderAmountForFree > 0 && deliveryTaxData.minOrderAmountForFree < deliveryTaxData.minimumOrderAmountToPlaceOrder">
+                                        <small class="text-danger">{{"INVALID_FREE_DEL" | translate}}&nbsp;{{deliveryTaxData.minimumOrderAmountToPlaceOrder}}</small>
+                                    </span>
+                                    <span class="help-block"
+                                          *ngIf="deliveryTaxData.minOrderAmountForFree === 0">
+                                        <small class="text-info">{{"INVALID_FREE_AMOUNT" | translate}}&nbsp;{{deliveryTaxData.minimumOrderAmountToPlaceOrder}}</small>
+                                    </span>
+                                </div>
+                                <div class="form-group" *ngIf="deliveryTaxData.deliveryType === 'FIXED'">
+                                    <label> {{'DELIVERY_CHARGES' | translate}}</label>
+                                    <input class="form-control" type="number" [min]="0" name="fixedDeliveryCharge"
+                                           [(ngModel)]="deliveryTaxData.fixedDeliveryCharges" required>
+                                    <span class="help-block" *ngIf="deliveryTaxData.fixedDeliveryCharges < 0">
+                                        <small class="text-danger" translate>INVALID_DELIVERY_CHARGE</small>
+                                    </span>
+                                </div>
+                                <div class="form-group" *ngIf="deliveryTaxData.deliveryType === 'FLEXIBLE'">
+                                    <label> {{'DELIVERY_CHARGES_PER_KM' | translate}}</label>
+                                    <input class="form-control" type="number" [min]="0"
+                                           name="deliveryChargePerKilometre"
+                                           [(ngModel)]="deliveryTaxData.deliveryChargePerKm" required>
+                                    <span class="help-block" *ngIf="deliveryTaxData.deliveryChargePerKm < 0">
+                                        <small class="text-danger" translate>INVALID_DELIVERY_CHARGE</small>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label> {{'DELIVERY_COVERAGE' | translate}}</label>
+                                    <input class="form-control" type="number" [min]="0"
+                                           name="deliveryCoverage"
+                                           [(ngModel)]="deliveryTaxData.deliveryCoverage" required>
+                                </div>
+                                <hr>
+                                <h4 class="text-center"><strong>{{"TAX_INFO" | translate}}</strong></h4>
+                                <div class="form-group">
+                                    <label>{{'TAX_NAME' | translate}}</label>
+                                    <input class="form-control" type="text" name="taxName"
+                                           [(ngModel)]="deliveryTaxData.taxName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{'TAX_PERCENTAGE' | translate}}</label>
+                                    <input class="form-control" type="number" name="taxAmount" [min]="0"
+                                           [(ngModel)]="deliveryTaxData.taxAmount" required>
+                                    <span class="help-block" *ngIf="deliveryTaxData.taxAmount < 0">
+                                        <small class="text-danger" translate>INVALID_TAX</small>
+                                    </span>
+                                </div>
+                                <hr>
+                                <h4 class="text-center"><strong>{{"STORE_LOCATION_INFO" | translate}}</strong></h4>
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <label> {{'LATITUDE' | translate}}</label>
+                                        <input class="form-control" type="number" name="lat" [min]="0"
+                                               [(ngModel)]="deliveryTaxData.location.latitude" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label> {{'LONGITUDE' | translate}}</label>
+                                        <input class="form-control" type="number" name="lng" [min]="0"
+                                               [(ngModel)]="deliveryTaxData.location.longitude" required>
+                                    </div>
+                                </div>
+                                <hr>
+                                <h4 class="text-center"><strong>{{"PAYMENT_METHOD" | translate}}</strong></h4>
+                                <div class="form-group">
+                                    <label>{{'SET-PAYMENT_METHOD' | translate}}</label>
+                                    <ng-select [items]="paymentOptions" [bindLabel]="'title'" [bindValue]="'value'"
+                                               [(ngModel)]="deliveryTaxData.paymentMethod" name="paymentMethod"
+                                               [multiple]="true">
+                                    </ng-select>
+                                    <span class="help-block" *ngIf="deliveryTaxData.paymentMethod.length === 0">
+                                        <small class="text-danger">{{"SELECT_PAYMENT_METHOD" | translate}}</small>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class=" form-actions">
+                                <button type="submit" class="btn btn-raised btn-raised add-modules mr-2"
+                                        [disabled]="f.invalid || deliveryTaxData.minOrderAmountForFree < 0 || deliveryTaxData.taxAmount < 0 || deliveryTaxData.deliveryChargePerKm < 0 || deliveryTaxData.fixedDeliveryCharges < 0 || !deliveryTaxData.minimumOrderAmountToPlaceOrder  ||deliveryTaxData.minimumOrderAmountToPlaceOrder < 0 || (deliveryTaxData.minOrderAmountForFree > 0 && deliveryTaxData.minOrderAmountForFree < deliveryTaxData.minimumOrderAmountToPlaceOrder) || deliveryTaxData.deliveryCoverage <= 0 || deliveryTaxData.paymentMethod.length === 0">
+                                    <i class="fa fa-check-square-o"></i> {{'SUBMIT' | translate}}
+                                </button>
+                                <button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+                                        routerLink="/dashboard">
+                                    <i class="ft-x"></i> {{'CANCEL' | translate}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

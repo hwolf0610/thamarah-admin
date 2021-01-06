@@ -1,0 +1,72 @@
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="content-header text-center text-primary">{{!languageId ? ('ADD_LANGUAGE' | translate) : ('UPDATE_LANGUAGE' | translate)}}</div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-12">
+        <div class="card ">
+            <div class="card-header pb-2">
+            </div>
+            <div class="card-content">
+                <div class="px-3">
+                    <div class="form">
+                        <form (ngSubmit)="checkType()" #f="ngForm">
+                            <div class="form-body">
+                                <div>
+                                    <h4>{{'ADD_LANGUAGE' | translate}}</h4>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>{{'LANGUAGE_NAME' | translate}}</label>
+                                    <ng-select [items]="languageList" [bindLabel]="'English'" [bindValue]="'English'"
+                                               [(ngModel)]="languageData.languageName" name="languageName"
+                                               (change)="setLanguageCode($event)" [searchable]="true"></ng-select>
+                                </div>
+                                <div class="form-group">
+                                    <label translate>CMS_JSON</label>
+                                    <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="languageData.cmsJson"
+                                                       name="cmsJSON" required></ngx-monaco-editor>
+                                </div>
+                                <div class="form-group">
+                                    <label translate>WEB_APP_JSON</label>
+                                    <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="languageData.webJson"
+                                                       name="webJSON" required></ngx-monaco-editor>
+                                </div>
+                                <div class="form-group">
+                                    <label translate>MOBILE_APP_JSON</label>
+                                    <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="languageData.mobAppJson"
+                                                       name="mobJSON" required></ngx-monaco-editor>
+                                </div>
+                                <div class="form-group">
+                                    <label translate>DELIVERY_APP_JSON</label>
+                                    <ngx-monaco-editor [options]="editorOptions"
+                                                       [(ngModel)]="languageData.deliveyAppJson"
+                                                       name="delJSON" required></ngx-monaco-editor>
+                                </div>
+                                <div class="form-group">
+                                    <label translate>BACKEND_JSON</label>
+                                    <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="languageData.backendJson"
+                                                       name="backendJSON" required></ngx-monaco-editor>
+                                </div>
+                            </div>
+
+                            <div class=" form-actions">
+                                <button type="submit" class="btn btn-raised btn-raised add-modules mr-2"
+                                        [disabled]="f.invalid || !languageData.languageCode">
+                                    <i class="fa fa-check-square-o"></i> {{'SUBMIT' | translate}}
+                                </button>
+                                <button type="button" routerLink="/settings/languages"
+                                        class="btn btn-raised btn-raised btn-warning mr-1">
+                                    <i class="ft-x"></i> {{'CANCEL' | translate}}
+                                </button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,120 @@
+<div class="row">
+  <div class="col text-primary">
+    <h2>{{ "COUPONS" | translate }}</h2>
+  </div>
+  <div class="col">
+    <!--Multiple buttons Starts-->
+    <section id="multiple-buttons">
+      <div class="row text-left">
+        <div class="col-sm-12 pull-right">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <button type="button" class="btn btn-raised add-button" [routerLink]="['/coupons/add-coupon']"
+                    aria-label="Add">
+                    <i class="ft-plus"></i> &nbsp;
+                    {{ "ADD_NEW_COUPON" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--Multiple buttons Ends-->
+  </div>
+</div>
+<app-custom-loader *ngIf="isLoading"></app-custom-loader>
+<!--table starts-->
+<section id="ng-tables">
+  <div class="row text-left">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <form>
+              <div class="form-group form-inline">
+                <input class="form-control searchinput filterSearch" type="text" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}" name="searchCoupon" #searchCoupon />
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">{{ "NAME" | translate }}</th>
+                      <th scope="col">
+                        {{ "OFFER" | translate }}<br />
+                        {{ "PERCENTAGE" | translate }}
+                      </th>
+                      <th scope="col">{{ "DESCRIPTION" | translate }}</th>
+                      <th scope="col">{{ "ENABLE" | translate }}</th>
+                      <th scope="col">{{ "START_DATE" | translate }}</th>
+                      <th scope="col">{{ "EXPIRY_DATE" | translate }}</th>
+                      <th scope="col">
+                        {{ "EDIT" | translate }}
+                      </th>
+                      <th scope="col">
+                        {{ "DELETE" | translate }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <!-- <tbody>
+                    <td colspan="12">
+                      <div class="no-data mt-2">
+                        <h4 class="text-center">
+                          There is no data to display!
+                        </h4>
+                      </div>
+                    </td>
+                  </tbody> -->
+                  <tbody>
+                    <tr *ngFor=" let data of coupons | paginate : { itemsPerPage: limit, currentPage: page,
+                              totalItems: total }; let i = index">
+                      <td scope="row">{{ data.couponCode }}</td>
+                      <td>
+                        <h6>{{ data.offerValue }}</h6>
+                      </td>
+                      <td>
+                        <p>{{ data.description }}</p>
+                      </td>
+                      <td>
+                        <ui-switch (change)="updateCouponStatus(data._id, $event)" [checked]="data.status == true">
+                        </ui-switch>
+                      </td>
+                      <td>
+                        <h6>{{ data.startDate | date }}</h6>
+                      </td>
+                      <td>
+                        <h6>{{ data.expiryDate | date }}</h6>
+                      </td>
+
+                      <td>
+                        <button type="button" class="btn btn-raised btn-success"
+                          [routerLink]="['/coupons/edit-coupon/' + data._id]" aria-label="Edit">
+                          <i class="ft-edit-2"></i>
+                        </button>
+                      </td>
+
+                      <td>
+                        <button class="btn btn-raised btn-danger" type="button" (click)="deleteCoupon(data._id)">
+                          <em class="fa fa-trash"></em>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="d-flex justify-content-between p-2" *ngIf="total > 0">
+                <pagination-controls (pageChange)="pageChange($event)"></pagination-controls>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--table ends-->

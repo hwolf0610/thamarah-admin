@@ -1,0 +1,51 @@
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="content-header text-center text-primary">{{ 'ABOUT_US' | translate }}</div>
+    </div>
+</div>
+<app-custom-loader *ngIf="isLoading"></app-custom-loader>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card ">
+            <div class="card-header pb-2">
+            </div>
+            <div class="card-content">
+                <div class="px-3">
+                    <div class="form">
+                        <form #f="ngForm" (ngSubmit)="updateAboutUs()">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label>{{ 'TITLE' | translate }}*</label>
+                                    <input #title="ngModel" [(ngModel)]="pageData.title" class="form-control"
+                                           name="aboutUs" required />
+                                    <span *ngIf="title?.touched && title?.errors?.required">
+                                        <small class="text-danger">{{ "THIS_FIELD_IS_REQUIRED*" | translate }}</small>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{ 'DESCRIPTION' | translate }}*</label>
+                                    <quill-editor #desc="ngModel" [(ngModel)]="pageData.description" name="description"
+                                                  required></quill-editor>
+                                    <span *ngIf="desc?.touched && desc?.errors?.required">
+                                        <small class="text-danger">{{ "THIS_FIELD_IS_REQUIRED*" | translate }}</small>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class=" form-actions">
+                                <button [disabled]="f.invalid" class="btn btn-raised btn-raised add-modules mr-2"
+                                        type="submit">
+                                    <i class="fa fa-check-square-o"></i> {{ 'SUBMIT' | translate }}
+                                </button>
+                                <button class="btn btn-raised btn-raised btn-warning mr-1" routerLink="/dashboard"
+                                        type="button">
+                                    <i class="ft-x"></i>{{ 'CANCEL' | translate }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

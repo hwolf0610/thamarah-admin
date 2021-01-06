@@ -1,0 +1,104 @@
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="content-header text-center text-primary">{{'MY_PROFILE' | translate}}</div>
+    </div>
+</div>
+<app-custom-loader *ngIf="isLoading"></app-custom-loader>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card ">
+            <div class="card-header pb-2">
+            </div>
+            <div class="card-content">
+                <div class="px-3">
+                    <div class="form">
+                        <form (ngSubmit)="updateMyProfile()" #f="ngForm">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label>{{'FIRST_NAME' | translate}}</label>
+                                    <input class="form-control" type="text" name="firstname"
+                                           [(ngModel)]="myProfileInfo.firstName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{'LAST_NAME' | translate}}</label>
+                                    <input class="form-control" type="text" name="lastName"
+                                           [(ngModel)]="myProfileInfo.lastName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{'MOBILE_NUMBER' | translate}}</label>
+                                    <input class="form-control" type="text" name="mobileNumber"
+                                           [(ngModel)]="myProfileInfo.mobileNumber" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{'EMAIL' | translate}}</label>
+                                    <input class="form-control" type="email" name="email"
+                                           [(ngModel)]="myProfileInfo.email" required>
+                                </div>
+                            </div>
+
+                            <div class=" form-actions">
+                                <button type="submit" class="btn btn-raised btn-raised add-modules mr-2"
+                                        [disabled]="f.invalid">
+                                    <i class="fa fa-check-square-o"></i> {{'SUBMIT' | translate}}
+                                </button>
+                                <button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+                                        routerLink="/dashboard">
+                                    <i class="ft-x"></i>{{'CANCEL' | translate}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <hr>
+                    <form (ngSubmit)="changePassword()" #changePasswordForm="ngForm">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label translate>CURRENT_PASSWORD</label>
+                                <input class="form-control" type="password" name="currentPass"
+                                       [(ngModel)]="changePasswordData.currentPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label translate>NEW_PASSWORD</label>
+                                <input class="form-control" type="password" name="newPass"
+                                       [(ngModel)]="changePasswordData.newPassword" minlength="5" maxlength="35"
+                                       required #newPass="ngModel">
+                                <span class="help-block"
+                                      *ngIf="newPass?.dirty && newPass?.errors?.minlength">
+                                    <small class="text-danger">{{"MIN_PASS" | translate}}</small>
+                                </span>
+                                <span class="help-block"
+                                      *ngIf="newPass?.dirty && newPass?.errors?.maxlength">
+                                    <small class="text-danger">{{"MAX_PASS" | translate}}</small>
+                                </span>
+                                <span class="help-block"
+                                      *ngIf="newPass?.dirty && changePasswordData.newPassword === changePasswordData.currentPassword">
+                                    <small class="text-danger">{{"SAME_PASS_ISSUE" | translate}}</small>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label translate>CONFIRM_PASSWORD</label>
+                                <input class="form-control" type="password" name="confirmPass"
+                                       [disabled]="changePasswordData.newPassword.length === 0"
+                                       [(ngModel)]="changePasswordData.confirmPassword" required #cPass="ngModel">
+                                <span class="help-block"
+                                      *ngIf="cPass?.dirty && changePasswordData.confirmPassword !== changePasswordData.newPassword">
+                                    <small class="text-danger">{{"PASSWORD_DO_NOY_MATCH" | translate}}</small>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class=" form-actions">
+                            <button type="submit" class="btn btn-raised btn-raised add-modules mr-2"
+                                    [disabled]="changePasswordForm.invalid || changePasswordData.confirmPassword !== changePasswordData.newPassword || changePasswordData.newPassword === changePasswordData.currentPassword">
+                                <i class="fa fa-check-square-o"></i> {{'SUBMIT' | translate}}
+                            </button>
+                            <button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+                                    routerLink="/dashboard">
+                                <i class="ft-x"></i>{{'CANCEL' | translate}}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

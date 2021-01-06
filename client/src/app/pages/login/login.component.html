@@ -1,0 +1,77 @@
+<!--Login Page Starts-->
+<section id="login">
+    <div class="container-fluid">
+        <div class="row full-height-vh m-0">
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body login-img">
+                            <div class="row m-0">
+                                <div class="col-lg-6 d-lg-block d-none py-2 px-3 text-center align-middle">
+                                    <img src="../../assets/img/gallery/login.png" alt="" class="img-fluid mt-5"
+                                         width="400"
+                                         height="230"/>
+                                </div>
+                                <div class="col-lg-6 col-md-12 bg-white px-4 pt-3">
+                                    <h4 class="card-title mb-2">{{"LOGIN" | translate}}</h4>
+                                    <p class="card-text mb-3">
+                                        {{"LOGIN_WELCOME" | translate}}
+                                    </p>
+
+                                    <form #f="ngForm" (ngSubmit)="validateCredentials()">
+
+                                        <input type="text" class="form-control mb-3"
+                                               placeholder="{{'EMAIL' | translate}}" name="emailidd" id="emailidd"
+                                               [(ngModel)]="loginDetails.email" #emailidd="ngModel"
+                                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required/>
+                                        <div class="alert alert-danger" *ngIf="emailidd.touched && emailidd.invalid">
+                                            <div *ngIf="emailidd.errors.required">{{"THIS_FIELD_IS_REQUIRED*" | translate}}</div>
+                                            <div *ngIf="emailidd.errors.pattern">
+                                                {{"EMAIL_ERROR" | translate}}
+                                            </div>
+                                        </div>
+
+                                        <input type="password" class="form-control mb-3" minlength="5" maxlength="35"
+                                               placeholder="{{'PASSWORD' | translate}}"
+                                               name="passw" [(ngModel)]="loginDetails.password" #passw="ngModel"
+                                               required/>
+                                        <div class="alert alert-danger" *ngIf="passw.touched && passw.invalid">
+                                            <div *ngIf="emailidd.errors.required">{{"THIS_FIELD_IS_REQUIRED*" | translate}}</div>
+                                            <div *ngIf="passw.errors.minlength">
+                                                {{"MIN_PASS" | translate}}
+                                            </div>
+                                            <div *ngIf="passw.errors.maxlength">
+                                                {{"MAX_PASS" | translate}}
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-2">
+
+                                            <div class="forgot-password-option">
+                                                <a [routerLink]="['/forgot-password']"
+                                                   class="text-decoration-none text-primary">{{"FORGOT_PASSWORD" | translate}}</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="fg-actions d-flex justify-content-between">
+
+                                            <div class="recover-pass">
+                                                <button class="btn add-modules" [disabled]="f.invalid">
+                                                    <a type="submit"
+                                                       class="text -decoration-none text-white">{{"LOGIN" | translate}}</a>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Login Page Ends-->

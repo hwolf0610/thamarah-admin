@@ -1,0 +1,74 @@
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="content-header text-center text-primary">{{'BUSINESS_DETAILS' | translate}}</div>
+    </div>
+</div>
+<app-custom-loader *ngIf="isLoading"></app-custom-loader>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card ">
+            <div class="card-header pb-2">
+            </div>
+            <div class="card-content">
+                <div class="px-3">
+                    <div class="form">
+                        <form #f="ngForm" (ngSubmit)="updateBusinessInfo()">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label>{{'EMAIL' | translate}}*</label>
+                                    <input class="form-control" [(ngModel)]="business.email" name="aboutUs" required
+                                           #aboutUs="ngModel">
+                                    <span *ngIf="aboutUs?.touched && aboutUs?.errors?.required">
+                                        <small class="text-danger">{{"THIS_FIELD_IS_REQUIRED*" | translate}}</small>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{'ADDRESS' | translate}}*</label>
+                                    <input class="form-control" [(ngModel)]="business.address" name="address" required
+                                           #address="ngModel">
+                                    <span *ngIf="address?.touched && address?.errors?.required">
+                                        <small class="text-danger">{{"THIS_FIELD_IS_REQUIRED*" | translate}}</small>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{'OFFICE_LOCATION' | translate}}*</label>
+                                    <input class="form-control" [(ngModel)]="business.officeLocation" name="officeLocation" required
+                                           #officeLocation="ngModel">
+                                    <span *ngIf="officeLocation?.touched && officeLocation?.errors?.required">
+                                        <small class="text-danger">{{"THIS_FIELD_IS_REQUIRED*" | translate}}</small>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{'PHONE_NUMBER' | translate}}*</label>
+                                    <input class="form-control" [(ngModel)]="business.phoneNumber" name="phoneNumber" required
+                                           #phoneNumber="ngModel" type="number">
+                                    <span *ngIf="phoneNumber?.touched && phoneNumber?.errors?.required">
+                                        <small class="text-danger">{{"THIS_FIELD_IS_REQUIRED*" | translate}}</small>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{'STORE_NAME' | translate}}*</label>
+                                    <input class="form-control" [(ngModel)]="business.storeName" name="storeName" required
+                                           #storeName="ngModel">
+                                    <span *ngIf="storeName?.touched && storeName?.errors?.required">
+                                        <small class="text-danger">{{"THIS_FIELD_IS_REQUIRED*" | translate}}</small>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class=" form-actions">
+                                <button type="submit" class="btn btn-raised btn-raised add-modules mr-2"
+                                        [disabled]="f.invalid">
+                                    <i class="fa fa-check-square-o"></i> {{'SUBMIT' | translate}}
+                                </button>
+                                <button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+                                        routerLink="/dashboard">
+                                    <i class="ft-x"></i>{{'CANCEL' | translate}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

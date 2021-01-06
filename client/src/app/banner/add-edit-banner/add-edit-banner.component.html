@@ -1,0 +1,100 @@
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="content-header text-center text-primary">
+            {{ !bannerId ? ("ADD_BANNER" | translate) : ("EDIT_BANNER" | translate)}}</div>
+    </div>
+</div>
+<app-custom-loader *ngIf="isLoading"></app-custom-loader>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header pb-2"></div>
+            <div class="card-content">
+                <div class="px-3">
+                    <form (ngSubmit)="checkOperationType()" #bannerSaveForm="ngForm">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>{{ "TITLE" | translate }}</label>
+                                <div class="input-group">
+                                    <input class="form-control" [(ngModel)]="banner.title" name="title" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>{{ "DESCRIPTION" | translate }}</label>
+                                <div class="input-group">
+                                    <input class="form-control" [(ngModel)]="banner.description" name="description"
+                                        required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>{{ "BANNER_FOR" | translate }}</label>
+                                <select class="form-control" name="bannerFor" [(ngModel)]="banner.bannerType"
+                                    (change)="banner.categoryId = null; banner.productId = null" required>
+                                    <option disabled>{{ "SELECT_OPTION" | translate }}</option>
+                                    <option value="CATEGORY">{{ "CATEGORY" | translate }}</option>
+                                    <option value="PRODUCT">{{ "PRODUCT" | translate }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group" *ngIf="banner.bannerType === bannerTypes.CATEGORY">
+                                <label>{{ "CATEGORIES" | translate }}</label>
+                                <ng-select [(ngModel)]="banner.categoryId" name="category" required #couCat="ngModel">
+                                    <ng-option *ngFor="let category of categories" [value]="category._id"
+                                        [disabled]="!category.status">
+                                        {{category.title}}
+                                        <ng-container *ngIf="!category.status">
+                                            ({{ 'CATEGORY_DISABLED' | translate}})
+                                        </ng-container>
+                                    </ng-option>
+                                </ng-select>
+                                <span class="help-block" *ngIf="couCat?.touched && couCat?.errors?.required"
+                                    style="color: red;"><small>{{ "THIS_FIELD_IS_REQUIRED*" | translate }}</small></span>
+                            </div>
+
+                            <div class="form-group" *ngIf="banner.bannerType === bannerTypes.PRODUCT">
+                                <label>{{ "PRODUCTS" | translate }}</label>
+                                <ng-select [items]="products" [bindLabel]="'title'" [bindValue]="'_id'"
+                                    [(ngModel)]="banner.productId" name="products" required #coupPro="ngModel">
+                                    <ng-option *ngFor="let product of products" [value]="product._id"
+                                        [disabled]="!product.status">
+                                        {{product.title}}
+                                        <ng-container *ngIf="!product.status">
+                                            ({{ 'PRODUCT_DISABLED' | translate}})
+                                        </ng-container>
+                                    </ng-option>
+                                </ng-select>
+                                <span class="help-block" *ngIf="coupPro?.touched && coupPro?.errors?.required"
+                                    style="color: red;"><small>{{ "THIS_FIELD_IS_REQUIRED*" | translate }}</small>
+                                </span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>{{ "IMAGE" | translate }}</label>
+
+                                <div class="input-group">
+                                    <button class="btn btn-info button-upload" type="button" (click)="openFilePicker()">
+                                        <i class="fa fa-upload" aria-hidden="true"></i> {{"SELECT_FILE" | translate}}
+                                    </button>
+                                    <input class="form-control" id="file-picker-inp" type="file" style="opacity: 0"
+                                        accept="image/*" (change)="uploadImage($event)" name="bannerImage" required />
+                                </div>
+
+                                <p>{{"IMAGE_400_400" | translate}}</p>
+                                <img [src]="banner.imageUrl" *ngIf="banner.imageUrl"
+                                    style="width: 100%; height: 100%;" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-dark" routerLink="/banner">
+                                {{ "CANCEL" | translate }}
+                            </button>
+                            <button type="submit" class="btn btn-outline-success"
+                                [disabled]="bannerSaveForm.invalid || !isImageSelected || isDisabled">
+                                {{ "SAVE" | translate }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,99 @@
+<div class="row">
+    <div class="col text-primary">
+        <h2 translate>LANGUAGES</h2>
+    </div>
+    <div class="col">
+
+        <!--Multiple buttons Starts-->
+        <section id="multiple-buttons">
+            <div class="row text-left">
+                <div class="col-sm-12 pull-right">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <button type="button" class="btn btn-raised add-button"
+                                        (click)="getEnglishLanguageId()" aria-label="Add">
+                                        <i class="ft-plus"></i> &nbsp; {{"ADD_LANGUAGE" | translate}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Multiple buttons Ends-->
+    </div>
+</div>
+
+<!--table starts-->
+<section id="ng-tables">
+
+    <div class="row text-left">
+        <div class="col-12">
+            <div class="card">
+                <div class="row text-left">
+                    <div class="col-12">
+                        <div class="content-header text-center text-primary" translate>LANGUAGES</div>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <form>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" translate>LANGUAGE_NAME</th>
+                                            <th scope="col" translate>LANGUAGE_CODE</th>
+                                            <th scope="col" translate>EDIT</th>
+                                            <th scope="col" translate>STATUS</th>
+                                            <th scope="col" translate>IS_DEFAULT</th>
+                                            <th scope="col" translate>DELETE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let language of languages">
+                                            <td scope="row">{{language.languageName}}</td>
+                                            <td scope="row">{{language.languageCode}}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-raised btn-success"
+                                                    aria-label="Edit"
+                                                    [routerLink]="['/settings/edit-language/',language._id]">
+                                                    <i class="ft-edit-2"></i>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <ui-switch [checked]="language.status === 1"
+                                                    [disabled]="language.isDefault === 1"
+                                                    (change)="changeStatus($event,language._id)"></ui-switch>
+                                            </td>
+                                            <td>
+                                                <ui-switch [checked]="language.isDefault === 1"
+                                                    [disabled]="language.status === 0 || language.isDefault === 1"
+                                                    (change)="setDefaultLanguage(language._id)"></ui-switch>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-raised btn-danger"
+                                                    (click)="deleteLanguage(language._id)">
+                                                    <em class="fa fa-trash"></em>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            <div class="d-flex justify-content-between p-2">
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--table ends-->

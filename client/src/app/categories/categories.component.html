@@ -1,0 +1,126 @@
+<div class="row">
+  <div class="col text-primary">
+    <h2>{{ "CATEGORIES" | translate }}</h2>
+  </div>
+  <app-custom-loader *ngIf="isLoading"></app-custom-loader>
+  <div class="col">
+    <!--Multiple buttons Starts-->
+    <section id="multiple-buttons">
+      <div class="row text-left">
+        <div class="col-sm-12 pull-right">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <button type="button" class="btn btn-raised add-button" [routerLink]="['/categories/add-category']"
+                    aria-label="Add">
+                    <i class="ft-plus"></i> &nbsp;
+                    {{ "ADD_NEW_CATEGORY" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--Multiple buttons Ends-->
+  </div>
+</div>
+<!--table starts-->
+<section id="ng-tables">
+  <div class="row text-left">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <form>
+              <div class="form-group form-inline">
+                <input class="form-control searchinput filterSearch" type="text" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}" name="searchCategory" #searchCategory />
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col ">{{ "NAME" | translate }}</th>
+                      <th scope="col">{{ "DEAL_OFFER" | translate }}</th>
+                      <th scope="col">
+                        {{ "EDIT" | translate }}
+                      </th>
+                      <th scope="col">
+                        {{ "VIEW" | translate }}
+                      </th>
+                      <th scope="col" >
+                        {{ "ENABLE" | translate }}
+                      </th>
+                      <th scope="col">
+                        {{ "DELETE" | translate }}
+                      </th>
+                      <th scope="col">{{ "IMAGE" | translate }}</th>
+                    </tr>
+                  </thead>
+                  <!-- <tbody>
+                    <td colspan="12">
+                      <div class="no-data mt-2">
+                        <h4 class="text-center">
+                          There is no data to display!
+                        </h4>
+                      </div>
+                    </td>
+                  </tbody> -->
+                  <tbody>
+                    <tr *ngFor=" let list of categories | paginate: { itemsPerPage: limit, currentPage: page,
+                    totalItems: total }; let i = index ">
+                      <td scope="row">{{ list.title }}</td>
+                      <td scope="row">
+                        {{ list.isDealAvailable ? list.dealPercent + "%" : "-"}}
+                      </td>
+                      <td>
+                        <button type="button" class="btn btn-raised btn-success" [routerLink]="[
+                            '/categories/edit-category/' + list._id
+                          ]" aria-label="Edit">
+                          <i class="ft-edit-2"></i>
+                        </button>
+                      </td>
+                      <td>
+                        <button class="btn btn-raised btn-secondary" [routerLink]="[
+                            '/categories/view-category/' + list._id
+                          ]" type="button">
+                          <em class="fa fa-eye"></em>
+                        </button>
+                      </td>
+                      <td>
+                        <ng-container *ngIf="!list.isDealAvailable; else dealLinked">
+                          <ui-switch (change)="statusUpdate(list._id, $event)" [checked]="list.status"
+                            name="stat{{ i }}"></ui-switch>
+                        </ng-container>
+                        <ng-template #dealLinked>
+                          <i class="fa fa-info" ngbTooltip="{{ 'CATEGORY_DEAL_LINK' | translate }}">
+                          </i>
+                        </ng-template>
+                      </td>
+                      <td>
+                        <button class="btn btn-raised btn-danger" (click)="deleteCategory(list._id)" type="button">
+                          <em class="fa fa-trash"></em>
+                        </button>
+                      </td>
+                      <td>
+                        <img [src]="list.imageUrl" style="width: 50px;" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="d-flex justify-content-between p-2" *ngIf="total > 0">
+                <pagination-controls (pageChange)="pageChange($event)"></pagination-controls>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--table ends-->

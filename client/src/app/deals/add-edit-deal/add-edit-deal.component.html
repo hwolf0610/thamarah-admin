@@ -1,0 +1,123 @@
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="content-header text-center text-primary">
+            {{ !dealId ? ("ADD_DEAL" | translate) : ("EDIT_DEAL" | translate) }}
+        </div>
+    </div>
+</div>
+<app-custom-loader *ngIf="isLoading"></app-custom-loader>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header pb-2"></div>
+            <div class="card-content">
+                <div class="px-3">
+                    <form class="form" #f="ngForm" (ngSubmit)="checkOperationType()">
+                        <div class="form-body" *ngIf="dealTypes">
+                            <div class="form-group">
+                                <label>{{ "DEAL_TYPE" | translate }}</label>
+                                <select class="form-control" name="dealType" [(ngModel)]="deal.dealType" required>
+                                    <option disabled>{{ "DEAL_TYPE" | translate }}</option>
+                                    <option value="{{ dealTypes['CATEGORY'] }}">{{ "CATEGORY" | translate }}</option>
+                                    <option value="{{ dealTypes['PRODUCT'] }}">{{ "PRODUCT" | translate }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group" *ngIf="deal.dealType === dealTypes['CATEGORY']">
+                                <label>{{ "SELECT_CATEGORY" | translate }}</label>
+                                <ng-select [(ngModel)]="deal.categoryId" name="category" required #couCat="ngModel">
+                                    <ng-option *ngFor="let category of categories" [value]="category._id"
+                                        [disabled]="!category.status">
+                                        {{category.title}}
+                                        <ng-container *ngIf="!category.status">
+                                            ({{ 'CATEGORY_DISABLED' | translate}})
+                                        </ng-container>
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+
+                            <div class="form-group" *ngIf="deal.dealType === dealTypes['PRODUCT']">
+                                <label>{{ "SELECT_PRODUCTS" | translate }}</label>
+
+                                <ng-select [items]="products" [bindLabel]="'title'" [bindValue]="'_id'"
+                                    [(ngModel)]="deal.productId" name="products" required #coupPro="ngModel">
+                                    <ng-option *ngFor="let product of products" [value]="product._id"
+                                        [disabled]="!product.status">
+                                        {{product.title}}
+                                        <ng-container *ngIf="!product.status">
+                                            ({{ 'PRODUCT_DISABLED' | translate}})
+                                        </ng-container>
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>{{ "TITLE" | translate }}</label>
+                                <input type="text" id="companyName23" class="form-control" name="title"
+                                    [(ngModel)]="deal.title" #title="ngModel" required />
+                                <span class="help-block" *ngIf="title?.touched && title?.errors?.required"
+                                    style="color: red;">
+                                    <small>{{ "THIS_FIELD_IS_REQUIRED*" | translate }}</small>
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label>{{ "DEAL_OFFER" | translate }}</label>
+                                <input type="number" id="companyName231" class="form-control" name="deal-title"
+                                    [(ngModel)]="deal.dealPercent" #title="ngModel" required />
+                                <span class="help-block" *ngIf="title?.touched && title?.errors?.required"
+                                    style="color: red;">
+                                    <small>{{ "THIS_FIELD_IS_REQUIRED*" | translate }}</small>
+                                </span>
+                            </div>
+                            <div class="form-control" class="form-group">
+                                <label>{{ "TOP_DEAL" | translate }}</label>
+                                <select class="form-control" name="topDeal" [(ngModel)]="deal.topDeal" required>
+                                    <!-- <option disabled>{{ "TOP_DEAL" | translate }}</option> -->
+                                    <option [ngValue]="true">{{"ADD_TO_TOP_DEAL"|translate}}</option>
+                                    <option [ngValue]="false">{{"DO_NOT_ADD_TO_TOP_DEAL"|translate}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="projectinput8">{{"DESCRIPTION" | translate}}</label>
+                                <textarea id="projectinput8" rows="5" class="form-control" name="desc"
+                                    [(ngModel)]="deal.description" #desc="ngModel" required></textarea>
+                                <span class="help-block" *ngIf="desc?.touched && desc?.errors?.required"
+                                    style="color: red;">
+                                    <small>{{ "THIS_FIELD_IS_REQUIRED*" | translate }}</small>
+                                </span>
+                            </div>
+
+                            <div class="row form-label-group">
+                                <div class="col-3">
+                                    <label>{{ "SELECT_FILE" | translate }}</label>
+                                </div>
+                                <div class="col-8">
+                                    <div class="mb-4">
+                                        <img src="{{ imageUrl }}" class="doctors-img img-fluid"
+                                            alt="example placeholder avatar" />
+                                    </div>
+                                    <button class="btn btn-info button-upload" type="button">
+                                        <i class="fa fa-upload" aria-hidden="true"></i> {{"SELECT_FILE" | translate}}
+                                    </button>
+                                    <input type="file" class="upload file-upload" accept="image/*"
+                                        (change)="uploadImage($event)" name="image" />
+                                    <p>{{"IMAGE_432_585" | translate}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-raised btn-raised add-modules mr-2"
+                                [disabled]="f.invalid || !isImageSelected || isDisabled">
+                                <i class="fa fa-check-square-o"></i> {{ "SUBMIT" | translate }}
+                            </button>
+                            <button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+                                routerLink="/deals">
+                                <i class="ft-x"></i> {{ "CANCEL" | translate }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
